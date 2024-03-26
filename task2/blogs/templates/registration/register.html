@@ -1,0 +1,38 @@
+{% extends "blogs/base.html" %}
+
+{% block content %}
+<div class="d-flex justify-content-center align-items-center" style="min-height: 60vh;">
+    <div class="w-100" style="max-width: 330px;">
+        <h1 class="mb-4" style="text-align: center">Регистрация</h1>
+        <form method="post" class="form-signin">
+            {% csrf_token %}
+            {% for field in form %}
+                <div class="form-group text-center">
+                    {% if field.name == 'username' %}
+                        <input type="text" name="{{ field.name }}" class="form-control" placeholder="Имя пользователя">
+                    {% elif field.name == 'password1' %}
+                        <input type="password" name="{{ field.name }}" class="form-control" placeholder="Пароль">
+                    {% elif field.name == 'password2' %}
+                        <input type="password" name="{{ field.name }}" class="form-control" placeholder="Подтверждение пароля">
+                    {% endif %}
+                    {% for error in field.errors %}
+                        <div class="text-danger">{{ error }}</div>
+                    {% endfor %}
+                </div>
+            {% endfor %}
+            <button class="btn btn-lg btn-primary btn-block" type="submit">Зарегистрироваться</button>
+        </form>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const inputs = document.querySelectorAll('.form-signin input');
+        inputs.forEach(input => {
+            input.setAttribute('autocomplete', 'off');
+        });
+    });
+</script>
+{% endblock %}
